@@ -5,7 +5,8 @@ import           Options.Applicative (Parser, ParserInfo, argument, auto,
                                       helper, info, long, metavar, option,
                                       short)
 
-import           Sqeq                (solveSquare)
+import           Sqeq                (solveSquare, SqSolution(..), showSqSolution) 
+import           EgorList            (EgorList)
 
 data Options = Options
   { a, b, c  :: Double
@@ -44,3 +45,4 @@ parser =
                   <>  long "language"
                   <>  short 'l'
                   )
+

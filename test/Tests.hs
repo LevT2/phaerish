@@ -1,14 +1,27 @@
 import           Test.Tasty       (TestTree, defaultMain, testGroup)
 import           Test.Tasty.HUnit (testCase, (@?=))
 
-import           Sqeq             (solveSquare)
+import           Sqeq             (solveSquare, SqSolution(..))
 
 main :: IO ()
-main =
-  defaultMain $
-    testGroup "solveSquare"
-      [ testCase "x² + 2x + 1 = 0 -> [-1, -1]" $
-          solveSquare 1 2 1 @?= [-1, -1]
-      , testCase "x² - 2x + 1 = 0 -> [1, 1]" $
-          solveSquare 1 (-2) 1 @?= [1, 1]
+main = defaultMain alltests
+
+alltests :: TestTree
+alltests = testGroup "all" [tests2]
+
+tests2 :: TestTree
+tests2 = testGroup "solveSquare2"
+      [ testCase "constant - infinity" $
+          solveSquare 0 0 0 @?= Inf
+      , testCase "constant - none" $
+          solveSquare 0 0 12 @?= None
+      , testCase "linear - one root" $
+          solveSquare 0 2 1 @?= OneRoot (-1 / 2)
+      , testCase "quadratic - none" $
+          solveSquare 1 1 12 @?= None
+      , testCase "quadratic - one root" $
+          solveSquare 1 2 1 @?= OneRoot ((-2) / 2 * 1)          
+      , testCase "quadratic - two roots" $
+          solveSquare 1 2 (-1) @?= TwoRoots (sqrt 2 - 1) (-1 - sqrt 2)
       ]
+

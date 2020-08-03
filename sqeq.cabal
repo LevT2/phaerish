@@ -9,7 +9,9 @@ common language
 
 library
   import: language
-  exposed-modules: Sqeq
+  exposed-modules: 
+    Sqeq
+    EgorList
   hs-source-dirs: lib
 
 executable sqeq

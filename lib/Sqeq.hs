@@ -1,15 +1,6 @@
-module Sqeq (solveSquare, SqSolution(..), showSqSolution) where
-
-data SqSolution = Inf | OneRoot Double | TwoRoots Double Double | None
-  deriving (Eq, Show)
-
-showSqSolution :: SqSolution -> String
-showSqSolution sqs = 
-  case sqs of
-    None             ->  "No results"
-    OneRoot a        ->  "Single root is :" ++ Prelude.show a
-    TwoRoots a b     ->  "Two roots are :" ++ Prelude.show a ++ ", " ++ Prelude.show b
-    Inf              ->  "Infinite results" 
+module Sqeq (solveSquare) where
+  
+import           SqSolution          (SqSolution(..), showSqSolution)
 
 -- | Solve equation of kind @a x² + b x + c = 0@
 solveSquare :: Double -> Double -> Double -> SqSolution

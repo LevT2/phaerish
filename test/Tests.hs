@@ -1,7 +1,8 @@
 import           Test.Tasty       (TestTree, defaultMain, testGroup)
 import           Test.Tasty.HUnit (testCase, (@?=))
 
-import           Sqeq             (solveSquare, SqSolution(..))
+import           Sqeq                (solveSquare) 
+import           SqSolution          (SqSolution(..), showSqSolution)
 
 main :: IO ()
 main = defaultMain alltests

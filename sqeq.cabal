@@ -11,6 +11,7 @@ library
   import: language
   exposed-modules: 
     Sqeq
+    SqSolution
     EgorList
   hs-source-dirs: lib
 

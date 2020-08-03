@@ -5,7 +5,8 @@ import           Options.Applicative (Parser, ParserInfo, argument, auto,
                                       helper, info, long, metavar, option,
                                       short)
 
-import           Sqeq                (solveSquare, SqSolution(..), showSqSolution) 
+import           Sqeq                (solveSquare) 
+import           SqSolution          (SqSolution(..), showSqSolution)
 import           EgorList            (EgorList)
 
 data Options = Options

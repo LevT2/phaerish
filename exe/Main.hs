@@ -1,17 +1,28 @@
-import           Control.Applicative (optional, (<**>))
-import           Data.Maybe          (fromMaybe)
-import           Options.Applicative (Parser, ParserInfo, argument, auto,
-                                      execParser, fullDesc, header, help,
-                                      helper, info, long, metavar, option,
-                                      short)
-
-import           Sqeq                (solveSquare) 
-import           SqSolution          (SqSolution(..), showSqSolution)
-import           EgorList            (EgorList)
+import Control.Applicative (optional, (<**>))
+import Data.Maybe (fromMaybe)
+import EgorList (EgorList)
+import Options.Applicative
+  ( Parser,
+    ParserInfo,
+    argument,
+    auto,
+    execParser,
+    fullDesc,
+    header,
+    help,
+    helper,
+    info,
+    long,
+    metavar,
+    option,
+    short,
+  )
+import SqSolution (SqSolution (..), showSqSolution)
+import Sqeq (solveSquare)
 
 data Options = Options
-  { a, b, c  :: Double
-  , language :: Language
+  { a, b, c :: Double,
+    language :: Language
   }
 
 data Language = En | Ru
@@ -19,7 +30,7 @@ data Language = En | Ru
 
 main :: IO ()
 main = do
-  Options{a = a, b = b, c = c, language = language} <- execParser parserInfo
+  Options {a = a, b = b, c = c, language = language} <- execParser parserInfo
   let solution =
         case language of
           En -> "Solution"
@@ -41,9 +52,10 @@ parser =
     <*> (fromMaybe En <$> optional languageOpt)
   where
     languageOpt =
-      option auto (   metavar "LANGUAGE"
-                  <>  help "Language: En (default), Ru"
-                  <>  long "language"
-                  <>  short 'l'
-                  )
-
+      option
+        auto
+        ( metavar "LANGUAGE"
+            <> help "Language: En (default), Ru"
+            <> long "language"
+            <> short 'l'
+        )

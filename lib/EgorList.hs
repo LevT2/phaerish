@@ -15,15 +15,16 @@ instance Functor EgorList where
   --fmap :: (a -> b) -> f a -> f b
   fmap _ HappyEnd = HappyEnd
   fmap f (Cons x ys) = Cons (f x) (fmap f ys)
+
   --(<$) :: a -> f b -> f a
   (<$) _ HappyEnd = HappyEnd
   (<$) a (Cons x xs) = Cons a (a <$ xs)
 
-
 instance Applicative EgorList where
   -- pure :: a -> f a
   pure a = Cons a HappyEnd
+
   --(<*>) :: f (a -> b) -> f a -> f b
   (<*>) _ HappyEnd = HappyEnd
   (<*>) HappyEnd _ = HappyEnd
-  (<*>) (Cons f fs) (Cons x xs) =  append (fmap f (Cons x xs)) (fs <*> (Cons x xs))
+  (<*>) (Cons f fs) (Cons x xs) = append (fmap f (Cons x xs)) (fs <*> (Cons x xs))

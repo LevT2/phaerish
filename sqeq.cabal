@@ -12,7 +12,9 @@ library
   exposed-modules: 
     Sqeq
     SqSolution
+-- TODO --  Move to exe, if it is possible    
     EgorList
+    -- LExpr      
   hs-source-dirs: lib
 
 executable sqeq
@@ -30,5 +32,5 @@ test-suite tests
     -- package
     sqeq,
   hs-source-dirs: test
-  main-is: Tests.hs
+  main-is: TestLambda.hs
   type: exitcode-stdio-1.0

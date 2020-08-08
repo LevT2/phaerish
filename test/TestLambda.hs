@@ -1,19 +1,24 @@
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import Test.Tasty.HUnit (testCase, (@?=))
 
+type VarName = String
+
 data LExpr
-  = Variable String -- variable
+  = Variable VarName -- variable
   | Apply LExpr LExpr -- function application
-  | Lambda String LExpr -- Lambda abstraction
+  | Lambda VarName LExpr -- Lambda abstraction
   deriving (Eq)
 
-show' :: LExpr -> String
-show' (Variable a) = a
-show' (Apply e1 e2) = "(" ++ show' e1 ++ " " ++ show' e2 ++ ")"
-show' (Lambda x e) = "(λ " ++ x ++ " -> " ++ show' e ++ ")"
+instance (Show LExpr) where
+  show (Variable a) = a
+  show (Apply (Lambda x y ) e)  = "(" ++ show (Lambda x y )  ++ ") " ++ show e
+  show (Apply (Apply e1 e2) e3) = "(" ++ show e1 ++ " " ++ show e2 ++ " " ++ show e3 ++ ")" 
+  show (Apply e1 e2)  = "(" ++ show e1 ++ " " ++ show e2 ++ ")"
+  show (Lambda x (Lambda y z)) = "(\\" ++ x ++ y ++ "->" ++ show z ++ ")"                     
+  show (Lambda y z)  = "\\" ++ y ++ "->" ++ show z 
 
-instance Show LExpr where
-  show = show'
+λ = "\\"
+dot = "->"
 
 main :: IO ()
 main = defaultMain alltests
@@ -31,22 +36,22 @@ mvptests =
       testCase "application" $
         show (Apply (Variable "x") (Variable "y")) @?= "(x y)",
       testCase "abstraction" $
-        show (Lambda "x" (Variable "e")) @?= "(λ x -> e)"
+        show (Lambda "x" (Variable "e")) @?= "\\x->e"
     ]
 
 extendedtests :: TestTree
 extendedtests =
   testGroup
     "all examples"
-    [ testCase "(λ x -> x) y" $
-        show (Apply (Lambda "x" (Variable "x")) (Variable "y")) @?= "((λ x -> x) y)",
-      testCase "(λ x -> y z)" $
-        show (Lambda "x" (Apply (Variable "y") (Variable "z"))) @?= "(λ x -> (y z))",
-      testCase "λ x -> (λ y -> z)" $
-        show (Lambda "x" (Lambda "y" (Variable "z"))) @?= "(λ x -> (λ y -> z))",
+    [ testCase "(λx->x) y" $
+        show (Apply (Lambda "x" (Variable "x")) (Variable "y")) @?= "(\\x->x) y"
+        ,
+      testCase "(λx->y z)" $
+        show (Lambda "x" (Apply (Variable "y") (Variable "z"))) @?= "\\x->(y z)"
+        ,
       testCase "(a b c)" $
-        show (Apply (Apply (Variable "a") (Variable "b")) (Variable "c")) @?= "((a b) c)"
---      ,testCase "last step: λ x y -> z" $
---        show (Lambda "x" (Lambda "y" (Variable "z"))) @?= "λ x y -> z"
+        show (Apply (Apply (Variable "a") (Variable "b")) (Variable "c")) @?= "(a b c)"
+        ,
+      testCase "(λxy->z)" $
+        show (Lambda "x" (Lambda "y" (Variable "z"))) @?= "(" ++ λ ++ "xy" ++ dot ++ "z)"        
     ]
-

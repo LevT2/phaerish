@@ -11,21 +11,17 @@ data LExpr
 
 instance (Show LExpr) where
   show (Variable a) = a
-  show (Apply (Lambda x y ) e)  = "(" ++ show (Lambda x y )  ++ ") " ++ show e
-  show (Apply (Apply e1 e2) e3) = "(" ++ show e1 ++ " " ++ show e2 ++ " " ++ show e3 ++ ")" 
-  show (Apply e1 e2)  = "(" ++ show e1 ++ " " ++ show e2 ++ ")"
-  show (Lambda x (Lambda y z)) = "(\\" ++ x ++ y ++ "->" ++ show z ++ ")"                     
-  show (Lambda y z)  = "\\" ++ y ++ "->" ++ show z 
-
-λ = "\\"
-dot = "->"
+  show (Apply (Lambda x e1) e2) = "(" ++ show (Lambda x e1) ++ ") " ++ show e2
+  show (Apply (Apply e1 e2) e3) = "(" ++ show e1 ++ " " ++ show e2 ++ " " ++ show e3 ++ ")"
+  show (Apply e1 e2) = "(" ++ show e1 ++ " " ++ show e2 ++ ")"
+  show (Lambda x (Lambda y e)) = "(λ" ++ x ++ y ++ "." ++ show e ++ ")"
+  show (Lambda x e) = "λ" ++ x ++ "." ++ show e
 
 main :: IO ()
 main = defaultMain alltests
 
 alltests :: TestTree
 alltests = testGroup "all" [mvptests, extendedtests]
-
 
 mvptests :: TestTree
 mvptests =
@@ -36,22 +32,27 @@ mvptests =
       testCase "application" $
         show (Apply (Variable "x") (Variable "y")) @?= "(x y)",
       testCase "abstraction" $
-        show (Lambda "x" (Variable "e")) @?= "\\x->e"
+        show (Lambda "x" (Variable "e")) @?= "λx.e"
     ]
+
+prettyTestCase :: String -> LExpr -> TestTree
+prettyTestCase prettyOut expression =
+  testCase prettyOut $
+    show expression @?= prettyOut
 
 extendedtests :: TestTree
 extendedtests =
   testGroup
     "all examples"
-    [ testCase "(λx->x) y" $
-        show (Apply (Lambda "x" (Variable "x")) (Variable "y")) @?= "(\\x->x) y"
+    [ prettyTestCase "(λx.x) y" $
+        Apply (Lambda "x" (Variable "x")) (Variable "y")
         ,
-      testCase "(λx->y z)" $
-        show (Lambda "x" (Apply (Variable "y") (Variable "z"))) @?= "\\x->(y z)"
+      prettyTestCase "λx.(y z)" $
+        Lambda "x" (Apply (Variable "y") (Variable "z"))
         ,
-      testCase "(a b c)" $
-        show (Apply (Apply (Variable "a") (Variable "b")) (Variable "c")) @?= "(a b c)"
+      prettyTestCase "(a b c)" $
+        Apply (Apply (Variable "a") (Variable "b")) (Variable "c")
         ,
-      testCase "(λxy->z)" $
-        show (Lambda "x" (Lambda "y" (Variable "z"))) @?= "(" ++ λ ++ "xy" ++ dot ++ "z)"        
+      prettyTestCase "(λxy.z)" $
+        Lambda "x" (Lambda "y" (Variable "z"))
     ]

@@ -1,27 +1,15 @@
+module TestLambda (testLambda) where
+
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import Test.Tasty.HUnit (testCase, (@?=))
 
-type VarName = String
-
-data LExpr
-  = Variable VarName -- variable
-  | Apply LExpr LExpr -- function application
-  | Lambda VarName LExpr -- Lambda abstraction
-  deriving (Eq)
-
-instance (Show LExpr) where
-  show (Variable a) = a
-  show (Apply (Lambda x e1) e2) = "(" ++ show (Lambda x e1) ++ ") " ++ show e2
-  show (Apply (Apply e1 e2) e3) = "(" ++ show e1 ++ " " ++ show e2 ++ " " ++ show e3 ++ ")"
-  show (Apply e1 e2) = "(" ++ show e1 ++ " " ++ show e2 ++ ")"
-  show (Lambda x (Lambda y e)) = "(λ" ++ x ++ y ++ "." ++ show e ++ ")"
-  show (Lambda x e) = "λ" ++ x ++ "." ++ show e
+import LExpr (LExpr(..))
 
 main :: IO ()
-main = defaultMain alltests
+main = defaultMain testLambda
 
-alltests :: TestTree
-alltests = testGroup "all" [mvptests, extendedtests]
+testLambda :: TestTree
+testLambda = testGroup "test LExpr" [mvptests, extendedtests]
 
 mvptests :: TestTree
 mvptests =

@@ -1,16 +1,13 @@
+module TestSqeq (testSqeq) where
+
 import SqSolution (SqSolution (..), showSqSolution)
 import Sqeq (solveSquare)
+
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import Test.Tasty.HUnit (testCase, (@?=))
 
-main :: IO ()
-main = defaultMain alltests
-
-alltests :: TestTree
-alltests = testGroup "all" [tests2]
-
-tests2 :: TestTree
-tests2 =
+testSqeq :: TestTree
+testSqeq =
   testGroup
     "solveSquare2"
     [ testCase "constant - infinity" $

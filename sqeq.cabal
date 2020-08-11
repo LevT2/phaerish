@@ -14,7 +14,7 @@ library
     SqSolution
 -- TODO --  Move to exe, if it is possible    
     EgorList
-    -- LExpr      
+    LExpr
   hs-source-dirs: lib
 
 executable sqeq
@@ -29,8 +29,14 @@ test-suite tests
     -- global
     tasty,
     tasty-hunit,
+
     -- package
-    sqeq,
+    sqeq
+
+  other-modules:
+    TestSqeq
+    TestLambda
+
   hs-source-dirs: test
-  main-is: TestLambda.hs
+  main-is: Bar.hs
   type: exitcode-stdio-1.0

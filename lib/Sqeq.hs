@@ -1,6 +1,6 @@
 module Sqeq (solveSquare) where
   
-import           SqSolution          (SqSolution(..), showSqSolution)
+import           SqSolution          (SqSolution(..))
 
 -- | Solve equation of kind @a x² + b x + c = 0@
 solveSquare :: Double -> Double -> Double -> SqSolution

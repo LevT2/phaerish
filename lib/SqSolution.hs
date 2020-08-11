@@ -1,4 +1,4 @@
-module SqSolution (SqSolution (..), showSqSolution) where
+module SqSolution (SqSolution (..)) where
 
 data SqSolution = Inf | OneRoot Double | TwoRoots Double Double | None
   deriving (Eq, Show)

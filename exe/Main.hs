@@ -17,7 +17,7 @@ import Options.Applicative
     option,
     short,
   )
-import SqSolution (SqSolution (..), showSqSolution)
+import SqSolution (SqSolution (..))
 import Sqeq (solveSquare)
 
 data Options = Options

@@ -1,6 +1,6 @@
 module TestSqeq (testSqeq) where
 
-import SqSolution (SqSolution (..), showSqSolution)
+import SqSolution (SqSolution (..))
 import Sqeq (solveSquare)
 
 import Test.Tasty (TestTree, defaultMain, testGroup)
@@ -9,7 +9,7 @@ import Test.Tasty.HUnit (testCase, (@?=))
 testSqeq :: TestTree
 testSqeq =
   testGroup
-    "solveSquare2"
+    "test solveSquare"
     [ testCase "constant - infinity" $
         solveSquare 0 0 0 @?= Inf,
       testCase "constant - none" $
